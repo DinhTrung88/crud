@@ -9,10 +9,20 @@ class SinhvienController extends Controller
 {
     public function index(Request $request)
     {
-        $students = Student::all();
+        $code = $request->code;
+        $name = $request->name;
+        $sex = $request->sex;
+        $students = new Student();
+        if (isset($code)) {
+            $students = $students->where('Student', '=', $code)->get();
+        } elseif (isset($name)) {
+            $students = $students->where('Name', '=', $name)->get();
+        } else {
+            $students = $students->get();
+        }
+
         return view('products.index', [
             'students' => $students,
-
         ]);
     }
     public function login()
